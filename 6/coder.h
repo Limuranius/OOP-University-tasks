@@ -3,7 +3,7 @@
 
 #include <string>
 
-std::string encode(std::string & str);
-std::string decode(std::string & str);
+std::string encode(const std::string & str);
+std::string decode(const std::string & str);
 
 #endif

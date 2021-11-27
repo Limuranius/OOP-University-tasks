@@ -1,7 +1,7 @@
 #include "coder.h"
 #include <map>
 
-std::string encode(std::string & str)  {
+std::string encode(const std::string & str)  {
     std::string base64characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string result;
     unsigned int charsMissing = bool(str.size() % 3) * (3 - str.size() % 3);  // Сколько не хватает символов в конце, чтобы было кратно 3
@@ -46,7 +46,22 @@ std::string encode(std::string & str)  {
 }
 
 
-std::string decode(std::string & str) {
+std::string decode(const std::string & str) {
+    // Предварительная проверка строки на правильность
+    if (str.size() % 4 != 0) {
+        throw std::runtime_error("Error: Invalid input!");
+    }
+    for (char ch: str) {
+        if (!(ch == '/' or
+              ch == '+' or
+              ch == '=' or
+              (ch >= '0' and ch <= '9') or
+              (ch >= 'A' and ch <= 'Z') or
+              (ch >= 'a' and ch <= 'z'))) {
+            throw std::runtime_error("Error: Invalid input!");
+        }
+    }
+
     std::string base64characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::map<char, int> base64indexes;
     // Создаём словарь "символ - индекс"
