@@ -93,6 +93,19 @@ Matrix Matrix::operator-(const Matrix &other) const {
     return res;
 }
 
+Matrix Matrix::operator+(const Matrix &other) const {
+    if (this->size != other.size) {
+        throw std::runtime_error("Matrices' sizes differ!");
+    }
+    Matrix res(this->size);
+    for (int i = 0; i < this->size; i++) {
+        for (int j = 0; j < this->size; j++) {
+            res.matr[i][j] = this->matr[i][j] + other.matr[i][j];
+        }
+    }
+    return res;
+}
+
 Matrix Matrix::transpose() const {
     Matrix res(this->size);
     for (int i = 0; i < this->size; i++) {

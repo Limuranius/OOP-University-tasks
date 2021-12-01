@@ -67,6 +67,5 @@ void testGivenInput() {
 }
 
 int main() {
-//    testGivenInput();
-    std::cout << "aboba" << std::endl;
+    testGivenInput();
 }
