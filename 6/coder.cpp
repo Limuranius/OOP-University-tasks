@@ -1,5 +1,6 @@
 #include "coder.h"
 #include <map>
+#include <iostream>
 
 std::string encode(const std::string & str)  {
     std::string base64characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -52,12 +53,12 @@ std::string decode(const std::string & str) {
         throw std::runtime_error("Error: Invalid input!");
     }
     for (char ch: str) {
-        if (!(ch == '/' or
-              ch == '+' or
-              ch == '=' or
-              (ch >= '0' and ch <= '9') or
-              (ch >= 'A' and ch <= 'Z') or
-              (ch >= 'a' and ch <= 'z'))) {
+        if (!(ch == '/' ||
+              ch == '+' ||
+              ch == '=' ||
+              (ch >= '0' && ch <= '9') ||
+              (ch >= 'A' && ch <= 'Z') ||
+              (ch >= 'a' && ch <= 'z'))) {
             throw std::runtime_error("Error: Invalid input!");
         }
     }
