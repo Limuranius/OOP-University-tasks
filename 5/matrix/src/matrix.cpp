@@ -3,6 +3,9 @@
 
 
 Matrix::Matrix(int size) {
+    if (size <= 0) {
+        throw std::runtime_error("Error: Matrix size <= 0!");
+    }
     this->size = size;
     this->matr = new int *[size];
     for (int i = 0; i < size; i++) {
@@ -26,7 +29,7 @@ void Matrix::setValuesWithConsole() {
 
 void Matrix::setValuesWithVector(const std::vector<int>& vect) const {
     if (vect.size() != this->size * this->size) {
-        throw std::runtime_error("Too many / not enough elements!");
+        throw std::runtime_error("Error: Too many / not enough elements!");
     }
     for (int i = 0; i < vect.size(); i++) {
         this->matr[i / this->size][i % this->size] = vect[i];
@@ -65,7 +68,7 @@ int Matrix::sumOfPositiveValues() const {
 
 Matrix Matrix::operator*(const Matrix &other) const {
     if (this->size != other.size) {
-        throw std::runtime_error("Matrices' sizes differ!");
+        throw std::runtime_error("Error: Matrices' sizes differ!");
     }
     Matrix res(this->size);
     for (int i = 0; i < this->size; i++) {
@@ -82,7 +85,7 @@ Matrix Matrix::operator*(const Matrix &other) const {
 
 Matrix Matrix::operator-(const Matrix &other) const {
     if (this->size != other.size) {
-        throw std::runtime_error("Matrices' sizes differ!");
+        throw std::runtime_error("Error: Matrices' sizes differ!");
     }
     Matrix res(this->size);
     for (int i = 0; i < this->size; i++) {
@@ -95,7 +98,7 @@ Matrix Matrix::operator-(const Matrix &other) const {
 
 Matrix Matrix::operator+(const Matrix &other) const {
     if (this->size != other.size) {
-        throw std::runtime_error("Matrices' sizes differ!");
+        throw std::runtime_error("Error: Matrices' sizes differ!");
     }
     Matrix res(this->size);
     for (int i = 0; i < this->size; i++) {

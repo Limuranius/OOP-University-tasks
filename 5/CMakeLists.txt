@@ -5,6 +5,8 @@ project(Matrix)
 #   console - консоль
 #   file - файл
 set(outputMode console)
+set(MATRIX_DIR ${CMAKE_CURRENT_SOURCE_DIR}/matrix)
+set(MATRIX_INCLUDE_DIR ${MATRIX_DIR}/include)
 
 add_subdirectory(matrix)
 add_subdirectory(tests)

@@ -36,6 +36,10 @@ TEST(EncodingTests, ShortStrings) {
     EXPECT_EQ("Wg==", encode("Z"));
 }
 
+TEST(EncodingTests, EmptyString) {
+    EXPECT_EQ("", encode(""));
+}
+
 TEST(DecodingTests, ThreeNChars) {
     EXPECT_EQ("abo", decode("YWJv"));
     EXPECT_EQ("WTF", decode("V1RG"));
@@ -66,4 +70,8 @@ TEST(DecodingTests, ImpossibleCases) {
     EXPECT_ANY_THROW(decode("."));
     EXPECT_ANY_THROW(decode("...."));
     EXPECT_ANY_THROW(decode("1234"));
+}
+
+TEST(DecodingTests, EmptyString) {
+    EXPECT_EQ("", decode(""));
 }

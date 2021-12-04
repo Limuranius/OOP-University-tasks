@@ -11,6 +11,11 @@ TEST(matrixTest, CorrectMatrixCreation) {
     EXPECT_EQ(4, matrix.matr[1][1]);
 }
 
+TEST(matrixTest, belowZeroMatrixSize) {
+    EXPECT_ANY_THROW(Matrix matrix(0));
+    EXPECT_ANY_THROW(Matrix matrix(-10));
+}
+
 TEST(matrixTest, notEnoughInputElements) {
     Matrix matrix(3);
     EXPECT_ANY_THROW(matrix.setValuesWithVector({1, 2, 3, 4}));

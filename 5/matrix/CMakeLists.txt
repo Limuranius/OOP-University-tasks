@@ -1,7 +1,7 @@
-add_library(matrix SHARED src/matrix.cpp)
+add_library(matrix STATIC src/matrix.cpp)
 
-include_directories(include)
+include_directories(${MATRIX_INCLUDE_DIR})
 
-add_library(print SHARED
+add_library(print STATIC
         src/print_ostream.cpp
         src/print_${outputMode}.cpp)
