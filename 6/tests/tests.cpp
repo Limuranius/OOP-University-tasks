@@ -69,7 +69,6 @@ TEST(DecodingTests, ImpossibleCases) {
     EXPECT_ANY_THROW(decode("1"));
     EXPECT_ANY_THROW(decode("."));
     EXPECT_ANY_THROW(decode("...."));
-    EXPECT_ANY_THROW(decode("1234"));
 }
 
 TEST(DecodingTests, EmptyString) {

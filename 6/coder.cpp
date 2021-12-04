@@ -62,6 +62,9 @@ std::string decode(const std::string & str) {
             throw std::runtime_error("Error: Invalid input!");
         }
     }
+    if (str.empty()) {
+        return "";
+    }
 
     std::string base64characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::map<char, int> base64indexes;
@@ -70,9 +73,8 @@ std::string decode(const std::string & str) {
         base64indexes[base64characters[i]] = i;
     }
 
-    unsigned int charsMissing = (str[str.size() - 1] == '=') + (str[str.size() - 2] == '=');
     std::string result;
-    for (int i = 0; i < str.size() / 4; i++) {  // Проходимся по группам по 3 байта, кроме последней
+    for (int i = 0; i < str.size() / 4 - 1; i++) {  // Проходимся по группам по 3 байта, кроме последней
         unsigned int threeByteBuffer = 0;
 
         for (int j = 0; j < 4; j++) {
@@ -89,29 +91,21 @@ std::string decode(const std::string & str) {
     }
 
     // Разбираемся с последней частью
-    if (charsMissing != 0) {
-        unsigned int lastPartIndex = str.size() / 4 * 4;
-        unsigned int threeByteBuffer = 0;
-        int cycleCount = 0;
-        if (charsMissing == 1) {  // Последние 4 символа имеют вид ###=
-            threeByteBuffer += (base64indexes[str[lastPartIndex]] << 26) +
-                               (base64indexes[str[lastPartIndex + 1]] << 20) +
-                               (base64indexes[str[lastPartIndex + 2]] << 26);
-            cycleCount = 3;
-        }
-        else if (charsMissing == 2) {
-            threeByteBuffer += (base64indexes[str[lastPartIndex]] << 26) +
-                               (base64indexes[str[lastPartIndex + 1]] << 20);
-            cycleCount = 2;
-        }
-        for (int j = 0; j < cycleCount; j++) {
-            char character = char(threeByteBuffer >> 24);
-            result += character;
-            threeByteBuffer <<= 8;
-        }
+    unsigned int charsMissing = (str[str.size() - 1] == '=') + (str[str.size() - 2] == '=');
+    unsigned int lastPartIndex = str.size() - 4;
+    unsigned int threeByteBuffer = 0;
+
+    for (int j = 0; j < 4 - charsMissing; j++) {
+        threeByteBuffer += base64indexes[str[lastPartIndex + j]] << (26 - 6 * j);
+    }
+
+    int cycleCount = 3 - charsMissing;
+
+    for (int j = 0; j < cycleCount; j++) {
+        char character = char(threeByteBuffer >> 24);
+        result += character;
+        threeByteBuffer <<= 8;
     }
 
     return result;
 }
-
-
