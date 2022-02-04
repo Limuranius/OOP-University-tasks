@@ -3,15 +3,16 @@
 #include "mylib.h"
 #include <string>
 #include <vector>
+#include <map>
 
 int main(int argc, char* argv[]) {
-//    std::string s = "aboba boba abo ba";
-//    std::vector<std::string> spl = split(s, " ");
-//    for (std::string sub: spl) {
-//        std::cout << sub << std::endl;
-//    }
-//    std::cout << calculateRPN("3 5 + 7 / 10 *");
-    for (int i = 0; i < argc; i++) {
-        std::cout << argv[i];
+    CommandManager cmd;
+    cmd.addCommand("calc", calculateRPN);
+    if (argc == 1) {
+        std::cout << "calc \"expression\" - calculate reverse polish notation expression";
+    } else if (cmd.isFuncValid(argv[1])) {
+        std::cout << cmd.runCommand(argv[1], argv[2]);
+    } else {
+        std::cout << "Error: no such function name: " << argv[1] << std::endl;
     }
 }
