@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[]) {
     CommandManager cmd;
-    cmd.addCommand("calc", calculateRPN);
+    cmd.addCommand("calc", checkAndCalculateRPN);
     if (argc == 1) {
         std::cout << "calc \"expression\" - calculate reverse polish notation expression";
     } else if (cmd.isFuncValid(argv[1])) {

@@ -4,6 +4,17 @@
 #include <string>
 #include <vector>
 
+std::string checkAndCalculateRPN(std::string expression) {
+    std::vector<std::string> split_expr = split(expression, " ");
+    // Checking if data is correct
+    for (const std::string& val: split_expr) {
+        if (!(isSign(val) or isNumber(val))) {
+            return "Error: Expression is incorrect";
+        }
+    }
+    return std::to_string(calculateRPN(expression));
+}
+
 float calculateRPN(std::string expression) {
     std::stack<std::string> stack;
     std::vector<std::string> split_expr = split(expression, " ");
@@ -37,7 +48,7 @@ float calculateRPN(std::string expression) {
     return result;
 }
 
-std::vector<std::string> split(std::string s, std::string delimiter) {
+std::vector<std::string> split(std::string s, const std::string& delimiter) {
     std::vector<std::string> res;
     size_t pos = 0;
     std::string token;
@@ -51,16 +62,15 @@ std::vector<std::string> split(std::string s, std::string delimiter) {
 }
 
 bool isNumber(const std::string& line) {
-    int dotCount = 0;
-    for (char ch : line) {
-        if (ch == '.') {
-            dotCount += 1;
-            if (dotCount > 1) {
-                return false;
-            }
-        } else if (!isdigit(ch)) {
-            return false;
-        }
+    try {
+        std::stof(line);
+    }
+    catch (const std::invalid_argument& e){
+        return false;
     }
     return true;
+}
+
+bool isSign(const std::string& line) {
+    return (line == "+" or line == "-" or line == "*" or line == "/");
 }

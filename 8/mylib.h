@@ -2,7 +2,7 @@
 #define MY_LIB
 #include <map>
 #include <string>
-typedef float (*func_ptr)(std::string);
+typedef std::string (*func_ptr)(std::string);
 
 class CommandManager {
 private:
