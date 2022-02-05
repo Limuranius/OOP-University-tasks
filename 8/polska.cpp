@@ -8,7 +8,7 @@ std::string checkAndCalculateRPN(std::string expression) {
     std::vector<std::string> split_expr = split(expression, " ");
     // Checking if data is correct
     for (const std::string& val: split_expr) {
-        if (!(isSign(val) or isNumber(val))) {
+        if (!(isSign(val) || isNumber(val))) {
             return "Error: Expression is incorrect";
         }
     }
@@ -72,5 +72,5 @@ bool isNumber(const std::string& line) {
 }
 
 bool isSign(const std::string& line) {
-    return (line == "+" or line == "-" or line == "*" or line == "/");
+    return (line == "+" || line == "-" || line == "*" || line == "/");
 }

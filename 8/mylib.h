@@ -13,7 +13,7 @@ public:
 
     void addCommand(const std::string& name, func_ptr function);
 
-    float runCommand(const std::string& name, std::string arg);
+    std::string runCommand(const std::string& name, std::string arg);
 
     bool isFuncValid(const std::string& name);
 };
