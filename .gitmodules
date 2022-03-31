@@ -1,9 +1,9 @@
-[submodule "Семестр-1/5/tests/googletest"]
-	path = Семестр-1/5/tests/googletest
-	url = https://github.com/google/googletest
-[submodule "Семестр-1/6/tests/googletest"]
-	path = Семестр-1/6/tests/googletest
-	url = https://github.com/google/googletest
 [submodule "Семестр-1/8/tests/googletest"]
 	path = Семестр-1/8/tests/googletest
+	url = https://github.com/google/googletest.git
+[submodule "Семестр-1/6/tests/googletest"]
+	path = Семестр-1/6/tests/googletest
+	url = https://github.com/google/googletest.git
+[submodule "Семестр-1/5/tests/googletest"]
+	path = Семестр-1/5/tests/googletest
 	url = https://github.com/google/googletest.git
