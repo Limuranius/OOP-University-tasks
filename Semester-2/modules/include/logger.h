@@ -2,6 +2,8 @@
 
 #include <string>
 
+
+// ----------------------------------------Логгеры---------------------------------------------------
 class LoggerInterface {
 public:
     virtual void log_error(const std::string &text) = 0;
@@ -26,7 +28,6 @@ public:
 
 class ConsoleLogger : public LoggerInterface {
 public:
-//    ConsoleLogger(const std::string& filename);
     void log_error(const std::string &text) override;
 
     void log_warning(const std::string &text) override;
@@ -34,6 +35,8 @@ public:
     void log_info(const std::string &text) override;
 };
 
+
+// ----------------------------------------Фабрики логгеров---------------------------------------------------
 class LoggerFactoryInterface {
 public:
     virtual LoggerInterface *createLogger() = 0;
@@ -49,4 +52,48 @@ public:
     LoggerInterface *createLogger() override;
 };
 
-void log(LoggerFactoryInterface* factory, std::string text);
+
+// ----------------------------------------Декораторы логгеров---------------------------------------------------
+class LoggerDecorator : public LoggerInterface {
+protected:
+    LoggerInterface *wrappee;
+public:
+    LoggerDecorator(LoggerInterface *source);
+
+    void log_error(const std::string &text) override;
+
+    void log_warning(const std::string &text) override;
+
+    void log_info(const std::string &text) override;
+};
+
+class FileLoggerDecorator : public LoggerDecorator {
+protected:
+    FileLogger* fileLogger;
+
+public:
+    FileLoggerDecorator(LoggerInterface *source, const std::string& filename);
+
+    void log_error(const std::string &text) override;
+
+    void log_warning(const std::string &text) override;
+
+    void log_info(const std::string &text) override;
+};
+
+class ConsoleLoggerDecorator : public LoggerDecorator {
+protected:
+    ConsoleLogger* consoleLogger;
+
+public:
+    ConsoleLoggerDecorator(LoggerInterface *source);
+
+    void log_error(const std::string &text) override;
+
+    void log_warning(const std::string &text) override;
+
+    void log_info(const std::string &text) override;
+};
+
+
+void log(LoggerFactoryInterface *factory, const std::string &text);
