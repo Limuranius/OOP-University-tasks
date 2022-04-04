@@ -6,12 +6,22 @@ set(MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/modules)
 set(MODULES_INCLUDE ${MODULES_DIR}/include)
 set(MODULES_SRC ${MODULES_DIR}/src)
 set(MODULES_ENTRIES ${MODULES_DIR}/entry)
+set(TESTS_DIR ${MODULES_DIR}/tests)
+set(GOOGLE_TEST_DIR ${TESTS_DIR}/googletest)
 
 include_directories(${MODULES_INCLUDE})
 
-add_library(logger ${MODULES_SRC}/logger.cpp)
+# Logger
+add_library(loggerLib ${MODULES_SRC}/logger.cpp)
+add_executable(logger ${MODULES_ENTRIES}/logger-main.cpp)
+target_link_libraries(logger loggerLib)
 
-add_executable(log ${MODULES_ENTRIES}/logger.cpp)
-target_link_libraries(log logger)
+# Big Integer
+add_library(bigIntLib ${MODULES_SRC}/big-integer.cpp)
+add_executable(bigInt ${MODULES_ENTRIES}/big-integer-main.cpp)
+target_link_libraries(bigInt bigIntLib)
 
-
+# Tests
+add_subdirectory(${GOOGLE_TEST_DIR})
+add_executable(bigIntTest ${TESTS_DIR}/big-integer-tests.cpp)
+target_link_libraries(bigIntTest bigIntLib gtest gtest_main)

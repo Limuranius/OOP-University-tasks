@@ -1,5 +1,5 @@
 #include <iostream>
-#include "logger.h"
+#include "logger-main.h"
 #include <string>
 
 int main() {

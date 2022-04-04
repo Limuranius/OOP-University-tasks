@@ -1,4 +1,4 @@
-#include <logger.h>
+#include <logger-main.h>
 #include <fstream>
 #include <iostream>
 
