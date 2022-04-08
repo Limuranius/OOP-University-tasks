@@ -21,6 +21,11 @@ add_library(bigIntLib ${MODULES_SRC}/big-integer.cpp)
 add_executable(bigInt ${MODULES_ENTRIES}/big-integer-main.cpp)
 target_link_libraries(bigInt bigIntLib)
 
+# CSV Parser
+add_library(CSVParserLib ${MODULES_SRC}/csv-parser.cpp)
+add_executable(CSVParser ${MODULES_ENTRIES}/csv-parser-main.cpp)
+target_link_libraries(CSVParser CSVParserLib)
+
 # Tests
 add_subdirectory(${GOOGLE_TEST_DIR})
 add_executable(bigIntTest ${TESTS_DIR}/big-integer-tests.cpp)
