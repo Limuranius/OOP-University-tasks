@@ -44,6 +44,12 @@ LoggerInterface *ConsoleLoggerFactory::createLogger() {
     return new ConsoleLogger();
 }
 
+LoggerInterface *CombinedLoggerFactory::createLogger() {
+    LoggerInterface* logger = new ConsoleLogger();
+    logger = new FileLoggerDecorator(logger, "log.txt");
+    return logger;
+}
+
 void log(LoggerFactoryInterface *factory, const std::string &text) {
     LoggerInterface *logger = factory->createLogger();
     logger->log_info(text);

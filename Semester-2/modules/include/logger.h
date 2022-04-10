@@ -52,6 +52,11 @@ public:
     LoggerInterface *createLogger() override;
 };
 
+class CombinedLoggerFactory : public LoggerFactoryInterface {
+public:
+    LoggerInterface *createLogger() override;
+};
+
 
 // ----------------------------------------Декораторы логгеров---------------------------------------------------
 class LoggerDecorator : public LoggerInterface {
