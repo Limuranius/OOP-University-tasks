@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "logger.h"
 
 class BigInt {
 private:
@@ -35,3 +36,12 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, const BigInt &number);
+
+class BigIntFactory {
+private:
+    LoggerInterface *logger;
+public:
+    BigIntFactory();
+
+    BigInt create(const std::string &value);
+};

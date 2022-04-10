@@ -2,10 +2,10 @@
 #include "big-integer.h"
 
 int main() {
-    BigInt a("5109512895084");
-    BigInt b("81220598123098508");
-    BigInt c = a * b;
-    std::cout << c << std::endl;
+    auto factory = BigIntFactory();
+    BigInt a = factory.create("5654643543533");
+    BigInt b = factory.create("095125780218503208");
+    std::cout << a * b;
 }
 
 

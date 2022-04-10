@@ -12,7 +12,7 @@ Parser::Parser(const string &join_str, bool table_mode) {
 vector<vector<string>> Parser::parse(const string &filename) {
     ifstream file(filename);
     if (!file)
-        throw runtime_error("Error: File does not exist");
+        throw runtime_error("File does not exist");
     vector<vector<string>> result;
     string line;
     while (getline(file, line)) {
@@ -35,11 +35,11 @@ vector<vector<string>> Parser::parse(const string &filename) {
 
 void Parser::print(const vector<vector<string>> &parsed_data) {
     if (this->table_mode) {
-        int max_line_count = 0;  // Ширина таблицы
+        int max_line_count = 0;  // Ширина таблицы в столбцах
         for (const vector<string> &line: parsed_data)
             max_line_count = max_line_count < line.size() ? line.size() : max_line_count;
 
-        vector<int> max_lengths(max_line_count);  // В каждом столбце максимальная длина ячейки
+        vector<int> max_lengths(max_line_count);  // В каждом столбце максимальная ширина ячейки
         for (const vector<string> &line: parsed_data) {
             for (int i = 0; i < line.size(); i++)
                 max_lengths[i] = max_lengths[i] < line[i].size() ? line[i].size() : max_lengths[i];
@@ -63,4 +63,26 @@ void Parser::print(const vector<vector<string>> &parsed_data) {
 }
 
 
+ParserLoggerDecorator::ParserLoggerDecorator(ParserInterface *parser) {
+    this->wrappee = parser;
+    auto factory = CombinedLoggerFactory();
+    this->logger = factory.createLogger();
+}
 
+vector<vector<string>> ParserLoggerDecorator::parse(const string &filename) {
+    try {
+        return this->wrappee->parse(filename);
+    } catch (runtime_error &e) {
+        this->logger->log_error(e.what());
+        throw e;
+    }
+}
+
+void ParserLoggerDecorator::print(const vector<vector<string>> &parsed_data) {
+    try {
+        this->wrappee->print(parsed_data);
+    } catch (runtime_error &e) {
+        this->logger->log_error(e.what());
+        throw e;
+    }
+}

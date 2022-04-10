@@ -3,7 +3,7 @@
 
 BigInt::BigInt(const std::string &value) {
     if (value.length() == 0)
-        throw std::runtime_error("Error: empty string");
+        throw std::runtime_error("Empty string");
     this->digits = std::vector<int>();
     this->negative = false;
     int begin = 0;
@@ -15,7 +15,7 @@ BigInt::BigInt(const std::string &value) {
     for (int i = value.size() - 1; i >= begin; i--) {
         char ch = value[i];
         if (!(ch >= '0' && ch <= '9'))  // Если попалась не цифра
-            throw std::runtime_error("Error: Incorrect number");
+            throw std::runtime_error("Incorrect number");
         int digit = value[i] - '0';
         this->digits.push_back(digit);
     }
@@ -185,4 +185,19 @@ void BigInt::removeLeadingZeros() {
 std::ostream &operator<<(std::ostream &out, const BigInt &number) {
     out << number.toString();
     return out;
+}
+
+BigIntFactory::BigIntFactory() {
+    auto factory = new CombinedLoggerFactory();
+    this->logger = factory->createLogger();
+}
+
+BigInt BigIntFactory::create(const std::string& value) {
+    try {
+        BigInt result(value);
+        return result;
+    } catch (const std::runtime_error& e) {
+        this->logger->log_error(e.what());
+        throw e;
+    }
 }

@@ -1,13 +1,20 @@
 #include "csv-parser.h"
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 int main() {
-    Parser parser("   |   ", true);
-    vector<vector<string>> parsed_data = parser.parse(
-            "C:/Users/Gleb/Desktop/Git Projects/OOP-University-tasks/Semester-2/modules/input-files/csv1.csv"
-    );
-    parser.print(parsed_data);
+    ParserInterface* parser = new Parser("   |   ", true);
+    parser = new ParserLoggerDecorator(parser);
+
+    cout << "Enter path to csv file:\n";
+    string filename;
+    getline(cin, filename);
+
+    vector<vector<string>> parsed_data;
+
+    parsed_data = parser->parse(filename);
+    parser->print(parsed_data);
 }
