@@ -18,11 +18,13 @@ target_link_libraries(logger loggerLib)
 
 # Big Integer
 add_library(bigIntLib ${MODULES_SRC}/big-integer.cpp)
+target_link_libraries(bigIntLib loggerLib)
 add_executable(bigInt ${MODULES_ENTRIES}/big-integer-main.cpp)
 target_link_libraries(bigInt bigIntLib)
 
 # CSV Parser
 add_library(CSVParserLib ${MODULES_SRC}/csv-parser.cpp)
+target_link_libraries(CSVParserLib loggerLib)
 add_executable(CSVParser ${MODULES_ENTRIES}/csv-parser-main.cpp)
 target_link_libraries(CSVParser CSVParserLib)
 
@@ -30,3 +32,5 @@ target_link_libraries(CSVParser CSVParserLib)
 add_subdirectory(${GOOGLE_TEST_DIR})
 add_executable(bigIntTest ${TESTS_DIR}/big-integer-tests.cpp)
 target_link_libraries(bigIntTest bigIntLib gtest gtest_main)
+add_executable(CSVParserTest ${TESTS_DIR}/csv-parser-tests.cpp)
+target_link_libraries(CSVParserTest CSVParserLib gtest gtest_main)
