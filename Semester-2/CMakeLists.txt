@@ -30,15 +30,27 @@ target_link_libraries(CSVParser CSVParserLib)
 
 # Key-Value Container
 add_library(keyValLib ${MODULES_SRC}/key-value.cpp)
-target_link_libraries(keyValLib loggerLib)
 add_executable(keyVal ${MODULES_ENTRIES}/key-value-main.cpp)
 target_link_libraries(keyVal keyValLib bigIntLib)
 
+# Stack
+add_library(stackLib ${MODULES_SRC}/stack.cpp)
+target_link_libraries(stackLib loggerLib)
+add_executable(stack ${MODULES_ENTRIES}/stack-main.cpp)
+target_link_libraries(stack stackLib bigIntLib)
+
 # Tests
 add_subdirectory(${GOOGLE_TEST_DIR})
+
 add_executable(bigIntTest ${TESTS_DIR}/big-integer-tests.cpp)
 target_link_libraries(bigIntTest bigIntLib gtest gtest_main)
+
 add_executable(CSVParserTest ${TESTS_DIR}/csv-parser-tests.cpp)
 target_link_libraries(CSVParserTest CSVParserLib gtest gtest_main)
+
 add_executable(keyValTest ${TESTS_DIR}/key-value-tests.cpp)
 target_link_libraries(keyValTest keyValLib bigIntLib gtest gtest_main)
+
+add_executable(stackTest ${TESTS_DIR}/stack-tests.cpp)
+target_link_libraries(stackTest stackLib bigIntLib gtest gtest_main)
+
