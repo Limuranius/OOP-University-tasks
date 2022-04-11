@@ -14,6 +14,8 @@ private:
 
 public:
 
+    BigInt();
+
     BigInt(const std::string &value);
 
     int length() const;

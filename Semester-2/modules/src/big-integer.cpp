@@ -1,10 +1,15 @@
 #include "big-integer.h"
 #include <string>
 
+BigInt::BigInt() {
+    this->digits = {0};
+    this->negative = false;
+}
+
 BigInt::BigInt(const std::string &value) {
     if (value.length() == 0)
         throw std::runtime_error("Empty string");
-    this->digits = std::vector<int>();
+    this->digits = {};
     this->negative = false;
     int begin = 0;
     if (value[0] == '-') {
