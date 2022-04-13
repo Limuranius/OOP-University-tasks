@@ -13,12 +13,21 @@ private:
 
     int find(const std::string& key);
 public:
+    DefaultDict();
+
     DefaultDict(T default_value);
 
     T& operator[](std::string key);
 
     void print();
 };
+
+template <typename T>
+DefaultDict<T>::DefaultDict() {
+    this->keys = {};
+    this->values = {};
+    this->default_value;
+}
 
 template <typename T>
 DefaultDict<T>::DefaultDict(T default_value) {
