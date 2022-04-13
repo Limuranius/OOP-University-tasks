@@ -19,11 +19,15 @@ private:
 public:
     Stack();
 
+    ~Stack();
+
     void push(T value);
 
     T pop();
 
     Node<T> *getTop() const;
+
+    bool isEmpty() const;
 };
 
 template<typename T>
@@ -36,6 +40,17 @@ Node<T>::Node(T value, Node<T> *next) {
 template<typename T>
 Stack<T>::Stack() {
     this->top = nullptr;
+}
+
+template<typename T>
+Stack<T>::~Stack() {
+    Node<T>* curr = this->top;
+    Node<T>* next;
+    while (curr != nullptr) {
+        next = curr->next;
+        delete curr;
+        curr = next;
+    }
 }
 
 template<typename T>
@@ -58,6 +73,11 @@ T Stack<T>::pop() {
 template<typename T>
 Node<T> *Stack<T>::getTop() const {
     return this->top;
+}
+
+template<typename T>
+bool Stack<T>::isEmpty() const {
+    return this->top == nullptr;
 }
 
 template<typename T>

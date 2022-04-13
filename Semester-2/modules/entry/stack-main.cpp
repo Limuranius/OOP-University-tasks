@@ -15,11 +15,6 @@ int main() {
         std::cout << "Stack: " << stack << std::endl;
         std::cout << "Popped: " << stack.pop() << std::endl;
         std::cout << "Stack: " << stack << std::endl;
-//        stack.pop();
-//        stack.pop();
-//        stack.pop();
-//        stack.pop();
-//        stack.pop();
     } catch (std::runtime_error& e) {
         logger->log_error(e.what());
         throw e;
