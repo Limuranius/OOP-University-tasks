@@ -21,6 +21,8 @@ public:
     virtual void read_commands_from_file(const std::string &filename) = 0;
 
     virtual void run() = 0;
+
+    virtual BigInt get_curr_value() = 0;
 };
 
 class Calculator : public CalculatorInterface {
@@ -40,6 +42,8 @@ public:
     void read_commands_from_file(const std::string &filename) override;
 
     void run() override;
+
+    BigInt get_curr_value() override;
 };
 
 class CalculatorLoggerDecorator : public CalculatorInterface {
@@ -56,9 +60,16 @@ public:
     void read_commands_from_file(const std::string &filename) override;
 
     void run() override;
+
+    BigInt get_curr_value() override;
 };
 
 class BasicCalculatorFactory {
+public:
+    CalculatorInterface* create();
+};
+
+class NoLogCalculatorFactory {
 public:
     CalculatorInterface* create();
 };

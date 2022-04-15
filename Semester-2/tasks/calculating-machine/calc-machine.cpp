@@ -2,8 +2,8 @@
 
 Calculator::Calculator(LoggerInterface *logger) {
     this->logger = logger;
-    this->commands;
-    this->comms_stack;
+    this->commands = DefaultDict<func>(nullptr);
+    this->comms_stack = Stack<std::pair<std::string, BigInt>>();
     this->curr_value = BigInt("0");
 }
 
@@ -42,6 +42,10 @@ void Calculator::run() {
         this->curr_value = this->commands[command.first](this->curr_value, command.second);
         this->logger->log_info("Результат: " + this->curr_value.toString());
     }
+}
+
+BigInt Calculator::get_curr_value() {
+    return this->curr_value;
 }
 
 CalculatorLoggerDecorator::CalculatorLoggerDecorator(CalculatorInterface *calculator, LoggerInterface *logger) {
@@ -85,9 +89,23 @@ void CalculatorLoggerDecorator::run() {
     }
 }
 
+BigInt CalculatorLoggerDecorator::get_curr_value() {
+    return this->wrappee->get_curr_value();
+}
+
 CalculatorInterface* BasicCalculatorFactory::create() {
     CombinedLoggerFactory factory;
     auto logger = factory.createLogger();
+    CalculatorInterface* calc = new Calculator(logger);
+    calc = new CalculatorLoggerDecorator(calc, logger);
+    calc->add_command("ADD", sum);
+    calc->add_command("SUB", sub);
+    calc->add_command("MUL", mul);
+    return calc;
+}
+
+CalculatorInterface* NoLogCalculatorFactory::create() {
+    LoggerInterface* logger = new EmptyLogger();
     CalculatorInterface* calc = new Calculator(logger);
     calc = new CalculatorLoggerDecorator(calc, logger);
     calc->add_command("ADD", sum);
