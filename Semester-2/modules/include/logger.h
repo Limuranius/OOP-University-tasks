@@ -35,6 +35,15 @@ public:
     void log_info(const std::string &text) override;
 };
 
+class EmptyLogger : public LoggerInterface {
+public:
+    void log_error(const std::string &text) override;
+
+    void log_warning(const std::string &text) override;
+
+    void log_info(const std::string &text) override;
+};
+
 
 // ----------------------------------------Фабрики логгеров---------------------------------------------------
 class LoggerFactoryInterface {

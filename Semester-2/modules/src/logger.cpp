@@ -36,6 +36,18 @@ void ConsoleLogger::log_info(const std::string &text) {
     std::cout << "Info: " << text << std::endl;
 }
 
+void EmptyLogger::log_error(const std::string &text) {
+    // Здесь ничего нет...
+}
+
+void EmptyLogger::log_warning(const std::string &text) {
+    // Здесь тоже ничего нет...
+}
+
+void EmptyLogger::log_info(const std::string &text) {
+    // Здесь пусто...
+}
+
 LoggerInterface *FileLoggerFactory::createLogger() {
     return new FileLogger("log.txt");
 }
