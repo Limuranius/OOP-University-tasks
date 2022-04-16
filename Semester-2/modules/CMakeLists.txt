@@ -5,6 +5,7 @@
 # keyValLib
 # stackLib
 # gtest gtest_main
+# converterLib
 
 # Logger
 add_library(loggerLib ${MODULES_SRC}/logger.cpp)
@@ -33,6 +34,10 @@ add_library(stackLib ${MODULES_SRC}/stack.cpp)
 target_link_libraries(stackLib loggerLib)
 add_executable(stack ${MODULES_ENTRIES}/stack-main.cpp)
 target_link_libraries(stack stackLib bigIntLib)
+
+# CSV-KevVal converter
+add_library(converterLib ${MODULES_SRC}/csv-keyval-converter.cpp)
+target_link_libraries(converterLib keyValLib)
 
 # Tests
 add_subdirectory(${GOOGLE_TEST_DIR})
