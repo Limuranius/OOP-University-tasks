@@ -11,7 +11,7 @@ private:
     std::vector<T> values;
     T default_value;
 
-    int find(const std::string& key);
+    int find(const std::string& key) const;
 public:
     DefaultDict();
 
@@ -19,7 +19,11 @@ public:
 
     T& operator[](std::string key);
 
-    void print();
+    void print() const;
+
+    std::vector<std::pair<std::string, T>> items() const;
+
+    bool has(const std::string &target) const;
 };
 
 template <typename T>
@@ -37,7 +41,7 @@ DefaultDict<T>::DefaultDict(T default_value) {
 }
 
 template <typename T>
-int DefaultDict<T>::find(const std::string& key) {
+int DefaultDict<T>::find(const std::string& key) const {
     for (int i = 0; i < this->keys.size(); i++) {
         if (this->keys[i] == key)
             return i;
@@ -57,7 +61,7 @@ T& DefaultDict<T>::operator[](std::string key) {
 }
 
 template <typename T>
-void DefaultDict<T>::print() {
+void DefaultDict<T>::print() const {
     std::cout << "{";
     if (this->keys.size() != 0) {
         std::cout << '\"' << this->keys[0] << "\": " << this->values[0];
@@ -65,4 +69,21 @@ void DefaultDict<T>::print() {
             std::cout << ", " << '\"' << this->keys[i] << "\": " << this->values[i];
     }
     std::cout << "}" << std::endl;
+}
+
+template<typename T>
+std::vector<std::pair<std::string, T>> DefaultDict<T>::items() const {
+    std::vector<std::pair<std::string, T>> result = {};
+    std::pair<std::string, T> item;
+    for (int i = 0; i < this->keys.size(); i++) {
+        item.first = this->keys[i];
+        item.second = this->values[i];
+        result.push_back(item);
+    }
+    return result;
+}
+
+template<typename T>
+bool DefaultDict<T>::has(const std::string &target) const {
+    return this->find(target) != -1;
 }
