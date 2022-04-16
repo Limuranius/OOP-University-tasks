@@ -9,6 +9,11 @@ Parser::Parser(const string &join_str, bool table_mode) {
     this->table_mode = table_mode;
 }
 
+Parser::Parser() {
+    this->join_str = " ";
+    this->table_mode = true;
+}
+
 vector<vector<string>> Parser::parse(const string &filename) {
     ifstream file(filename);
     if (!file)
@@ -24,7 +29,9 @@ vector<vector<string>> Parser::parse(const string &filename) {
             if (line[i] == '"')  // Если попали на кавычку
                 quotes_mode = !quotes_mode;
             else if (line[i] == ',' && !quotes_mode) {  // Если встретили запятую вне кавычек
-                parsed_line.push_back(line.substr(substr_start_index, i - substr_start_index));
+                parsed_line.push_back(
+                        strip(line.substr(substr_start_index, i - substr_start_index), '"')
+                );
                 substr_start_index = i + 1;
             }
         }
@@ -62,6 +69,24 @@ void Parser::print(const vector<vector<string>> &parsed_data) {
     }
 }
 
+void Parser::write_to_file(const vector<vector<string>> &parsed_data, const string &filename) {
+    ofstream out(filename);
+    for (const vector<string> &line: parsed_data) {
+        for (int i = 0; i < line.size() - 1; i++) {
+            auto cell_value = line[i];
+            bool has_commas = false;
+            for (auto ch: cell_value)
+                has_commas = (ch == ',') || has_commas;
+            if (has_commas)
+                out << "\"" << cell_value << "\",";
+            else
+                out << cell_value << ",";
+        }
+        out << line[line.size() - 1] << endl;
+    }
+    out.close();
+}
+
 
 ParserLoggerDecorator::ParserLoggerDecorator(ParserInterface *parser) {
     this->wrappee = parser;
@@ -85,4 +110,19 @@ void ParserLoggerDecorator::print(const vector<vector<string>> &parsed_data) {
         this->logger->log_error(e.what());
         throw e;
     }
+}
+
+void ParserLoggerDecorator::write_to_file(const vector<vector<string>> &parsed_data, const string &filename) {
+    try {
+        this->wrappee->write_to_file(parsed_data, filename);
+    } catch (runtime_error &e) {
+        this->logger->log_error(e.what());
+        throw e;
+    }
+}
+
+string strip(const string& str, char ch) {
+    bool remove_left = str[0] == ch;
+    bool remove_right = str[str.size() - 1] == ch;
+    return str.substr(remove_left, str.size() - remove_left - remove_right);
 }
