@@ -47,6 +47,8 @@ target_link_libraries(bigIntTest bigIntLib gtest gtest_main)
 
 add_executable(CSVParserTest ${TESTS_DIR}/csv-parser-tests.cpp)
 target_link_libraries(CSVParserTest CSVParserLib gtest gtest_main)
+file(COPY ${MODULES_DIR}/input-files/
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(keyValTest ${TESTS_DIR}/key-value-tests.cpp)
 target_link_libraries(keyValTest keyValLib bigIntLib gtest gtest_main)
